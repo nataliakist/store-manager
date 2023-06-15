@@ -9,7 +9,7 @@ const { productService } = require('../../../src/services');
 const { productController } = require('../../../src/controllers');
 const { mockProducts } = require('./mocks/product.controller.mock');
 
-describe('Testando a camada service dos products', function () {
+describe('Testando a camada controller dos products', function () {
   describe('a função findAll', function () {
     it('retorna status 200 e a lista de produtos', async function () {
       const res = {};
