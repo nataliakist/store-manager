@@ -9,6 +9,9 @@ const mockProducts = [
   },
 ];
 
+const productName = 'Cetro do Loki';
+
 module.exports = {
   mockProducts,
+  productName,
 };

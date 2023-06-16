@@ -34,6 +34,13 @@ describe('Testando a camada service das vendas', function () {
       expect(result.type).to.equal('SALE_NOT_FOUND');
       expect(result.message).to.be.deep.equal('Sale not found');
     });
+
+    it('retorna um erro quando é passado um id inválido', async function () {
+      const result = await saleService.findById('a');
+
+      expect(result.type).to.equal('INVALID_VALUE');
+      expect(result.message).to.be.deep.equal('"id" must be a number');
+    });
   });
   afterEach(function () {
     sinon.restore();

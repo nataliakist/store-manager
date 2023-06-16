@@ -9,6 +9,11 @@ const mockProducts = [
   },
 ];
 
+const newProductMockDB = {
+  name: 'Cetro do Loki',
+};
+
 module.exports = {
   mockProducts,
+  newProductMockDB,
 };

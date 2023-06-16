@@ -7,7 +7,12 @@ chai.use(sinonChai);
 
 const { productService } = require('../../../src/services');
 const { productController } = require('../../../src/controllers');
-const { mockProducts } = require('./mocks/product.controller.mock');
+const validateNewProductName = require('../../../src/middlewares/validateNewProductName');
+const {
+  mockProducts,
+  newProductMock,
+  newProductMockDB,
+} = require('./mocks/product.controller.mock');
 
 describe('Testando a camada controller dos products', function () {
   describe('a função findAll', function () {
@@ -59,6 +64,58 @@ describe('Testando a camada controller dos products', function () {
 
       expect(res.status).to.have.been.calledWith(404);
       expect(res.json).to.have.been.calledWith({ message: 'Product not found' });
+    });
+  });
+
+  describe('a função createNewProduct', function () {
+    it('ao enviar dados válidos cadastra com sucesso', async function () {
+      const res = {};
+      const req = {
+        body: newProductMockDB,
+      };
+
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon.stub(productService, 'insert').resolves({
+        type: null, message: newProductMock,
+      });
+
+      await productController.createNewProduct(req, res);
+
+      expect(res.status).to.have.been.calledWith(201);
+      expect(res.json).to.have.been.calledWith(newProductMock);
+    });
+  });
+
+  describe('a função validateNewProductName', function () {
+    it('Ao tentar cadastrar um novo produto sem nome retorna erro', async function () {
+      const res = {};
+      const req = {
+        body: {},
+      };
+  
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+  
+      await validateNewProductName(req, res);
+  
+      expect(res.status).to.have.been.calledWith(400);
+      expect(res.json).to.have.been.calledWith({ message: '"name" is required' });
+    });
+
+    it('Passando os dados corretamente chama o próximo middleware', async function () {
+      const res = {};
+      const req = {
+        body: {
+          name: 'Cedro do Loki',
+        },
+      };
+  
+      const next = sinon.stub().returns();
+  
+      await validateNewProductName(req, res, next);
+  
+      expect(next).to.have.been.calledWith();
     });
   });
 

@@ -3,7 +3,10 @@ const { expect } = require('chai');
 
 const { productService } = require('../../../src/services');
 const { productModel } = require('../../../src/models');
-const { mockProducts } = require('./mocks/product.service.mock');
+const {
+  mockProducts,
+  productName,
+} = require('./mocks/product.service.mock');
 
 describe('Testando a camada service dos products', function () {
   describe('a função findAll', function () {
@@ -34,7 +37,27 @@ describe('Testando a camada service dos products', function () {
       expect(result.type).to.equal('PRODUCT_NOT_FOUND');
       expect(result.message).to.be.deep.equal('Product not found');
     });
+
+    it('retorna um erro quando é passado um id inválido', async function () {
+      const result = await productService.findById('a');
+
+      expect(result.type).to.equal('INVALID_VALUE');
+      expect(result.message).to.be.deep.equal('"id" must be a number');
+    });
   });
+
+  describe('a função insert', function () {
+    it('cadastra com sucesso um novo produto', async function () {
+      sinon.stub(productModel, 'insert').resolves(4);
+      sinon.stub(productModel, 'findById').resolves(mockProducts[0]);
+
+      const result = await productService.insert(productName);
+
+      expect(result.type).to.equal(null);
+      expect(result.message).to.deep.equal(mockProducts[0]);
+    });
+  });
+
   afterEach(function () {
     sinon.restore();
   });

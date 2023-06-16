@@ -20,7 +20,7 @@ describe('Testando a camada model das vendas', function () {
   describe('a função findById', function () {
     it('retorna com sucesso a venda solicitada', async function () {
       // arrange
-      sinon.stub(connection, 'execute').resolves([[mockSaleById]]);
+      sinon.stub(connection, 'execute').resolves([mockSaleById]);
       // act
       const result = await saleModel.findById(1);
       // assert
