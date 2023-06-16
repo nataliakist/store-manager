@@ -1,4 +1,4 @@
-const { productService, saleService } = require('../services');
+const { productService } = require('../services');
 const { mapError } = require('../utils/errorMap');
 
 const listProducts = async (req, res) => {
@@ -21,7 +21,7 @@ const createNewProduct = async (req, res) => {
 
   const { type, message } = await productService.insert(name);
 
-  if (type) return res.status(mapError(type)).json(message);
+  if (type) return res.status(mapError(type)).json({ message });
 
   return res.status(201).json(message);
 };
