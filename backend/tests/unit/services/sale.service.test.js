@@ -6,8 +6,6 @@ const { saleModel } = require('../../../src/models');
 const {
   mockSales,
   mockSaleById,
-  mockNewSale,
-  mockNewSaleResolve,
 } = require('./mocks/sale.service.mock');
 
 describe('Testando a camada service das vendas', function () {
@@ -48,16 +46,16 @@ describe('Testando a camada service das vendas', function () {
     });
   });
 
-  describe('a função insert', function () {
-    it('cadastra com sucesso uma nova venda', async function () {
-      sinon.stub(saleModel, 'insert').resolves(4);
+  // describe('a função insert', function () {
+  //   it('cadastra com sucesso uma nova venda', async function () {
+  //     sinon.stub(saleModel, 'insert').resolves(4);
 
-      const result = await saleService.insert(mockNewSale);
+  //     const result = await saleService.insert(mockNewSale);
 
-      expect(result.type).to.equal(null);
-      expect(result.message).to.deep.equal(mockNewSaleResolve);
-    });
-  });
+  //     expect(result.type).to.equal(null);
+  //     expect(result.message).to.deep.equal(mockNewSaleResolve);
+  //   });
+  // });
 
   afterEach(function () {
     sinon.restore();

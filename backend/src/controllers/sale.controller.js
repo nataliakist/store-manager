@@ -20,7 +20,7 @@ const createNewSale = async (req, res) => {
   const sale = req.body;
 
   const { type, message } = await saleService.insert(sale);
-  if (type) return res.status(mapError(type)).json(message);
+  if (type) return res.status(mapError(type)).json({ message });
 
   return res.status(201).json(message);
 };

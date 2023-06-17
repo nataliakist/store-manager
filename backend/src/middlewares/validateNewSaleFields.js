@@ -7,7 +7,7 @@ const validateBody = (req, res, next) => {
   return next();
 };
 
-const validateFields = (req, res, next) => {
+const validateFields = (req, _res, next) => {
   const sale = req.body;
 
   let error;
@@ -18,13 +18,13 @@ const validateFields = (req, res, next) => {
     if (product.quantity == null) {
       error = { status: 400, message: '"quantity" is required' };
     }
-    if (product.quantity === 0) {
+    if (product.quantity < 1) {
       error = {
         status: 422,
         message: '"quantity" must be greater than or equal to 1',
       };
     }
-    if (error) return res.status(error.status).json({ message: error.message });
+    if (error) return next(error);
   });
 
   return next();
