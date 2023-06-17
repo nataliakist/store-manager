@@ -33,7 +33,7 @@ describe('Teste de integração de sales', function () {
 
     expect(response.status).to.be.equal(400);
     expect(response.body).to.be.deep.equal({
-      message: 'some field is missing',
+      message: 'body request is empty',
     });
   });
 
@@ -47,7 +47,7 @@ describe('Teste de integração de sales', function () {
 
     expect(response.status).to.be.equal(400);
     expect(response.body).to.be.deep.equal({
-      message: 'some field is missing',
+      message: 'body request is empty',
     });
   });
 
@@ -61,7 +61,7 @@ describe('Teste de integração de sales', function () {
   
       expect(response.status).to.be.equal(400);
       expect(response.body).to.be.deep.equal({
-        message: 'some field is missing',
+        message: 'body request is empty',
       });
   });
 
