@@ -24,7 +24,7 @@ describe('Teste de integração de sales', function () {
     expect(response.status).to.be.equal(200);
     expect(response.body).to.be.deep.equal(mockProducts);
   });
-  it('POST /products com o nome tendo menos de 5 letras', async function () {
+  it('POST /products sem nome retorna erro', async function () {
     const response = await chai
       .request(app)
       .post('/products')

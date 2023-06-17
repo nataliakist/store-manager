@@ -26,7 +26,34 @@ const mockSaleById = [
   },
 ];
 
+const mockNewSale = [
+  {
+    productId: 1,
+    quantity: 2,
+  },
+  {
+    productId: 2,
+    quantity: 2,
+  },
+];
+
+const mockNewSaleResolve = {
+  id: 4,
+  itemsSold: [
+    {
+      productId: 1,
+      quantity: 2,
+    },
+    {
+      productId: 2,
+      quantity: 2,
+    },
+  ],
+};
+
 module.exports = {
   mockSales,
   mockSaleById,
+  mockNewSale,
+  mockNewSaleResolve,
 };

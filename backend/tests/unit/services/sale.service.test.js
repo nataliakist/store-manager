@@ -3,7 +3,12 @@ const { expect } = require('chai');
 
 const { saleService } = require('../../../src/services');
 const { saleModel } = require('../../../src/models');
-const { mockSales, mockSaleById } = require('./mocks/sale.service.mock');
+const {
+  mockSales,
+  mockSaleById,
+  mockNewSale,
+  mockNewSaleResolve,
+} = require('./mocks/sale.service.mock');
 
 describe('Testando a camada service das vendas', function () {
   describe('a função findAll', function () {
@@ -42,6 +47,18 @@ describe('Testando a camada service das vendas', function () {
       expect(result.message).to.be.deep.equal('"id" must be a number');
     });
   });
+
+  describe('a função insert', function () {
+    it('cadastra com sucesso uma nova venda', async function () {
+      sinon.stub(saleModel, 'insert').resolves(4);
+
+      const result = await saleService.insert(mockNewSale);
+
+      expect(result.type).to.equal(null);
+      expect(result.message).to.deep.equal(mockNewSaleResolve);
+    });
+  });
+
   afterEach(function () {
     sinon.restore();
   });

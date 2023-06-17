@@ -27,6 +27,16 @@ describe('Testando a camada model das vendas', function () {
       expect(result).to.be.deep.equal(mockSaleById);
     });
   });
+
+  describe('a função insert', function () {
+    it('cadastra com sucesso uma nova venda', async function () {
+      sinon.stub(connection, 'execute').resolves([{ insertId: 4 }]);
+
+      const result = await saleModel.insert(mockSaleById);
+
+      expect(result).to.be.deep.equal(4);
+    });
+  });
   
   afterEach(function () {
     sinon.restore();

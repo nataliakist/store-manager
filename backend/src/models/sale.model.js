@@ -22,7 +22,27 @@ const findById = async (id) => {
   return result;
 };
 
+const insert = async (sale) => {
+  const [{ insertId }] = await connection.execute(
+    'INSERT INTO sales (date) VALUES (date(now()))',
+  );
+
+  if (!insertId) return { type: 'INVALID_VALUE', message: 'something is wrong' };
+
+  const result = sale.map((product) => connection.execute(
+    'INSERT INTO sales_products (sale_id, product_id, quantity) VALUES (?, ?, ?)',
+    [insertId, product.productId, product.quantity],
+  ));
+
+  await Promise.all(result);
+
+  if (!result || result.length < 1) return { type: 'INVALID_VALUE', message: 'something is wrong' };
+  
+  return insertId;
+};
+
 module.exports = {
   findAll,
   findById,
+  insert,
 };

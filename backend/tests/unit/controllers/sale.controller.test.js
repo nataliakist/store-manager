@@ -7,7 +7,13 @@ chai.use(sinonChai);
 
 const { saleService } = require('../../../src/services');
 const { saleController } = require('../../../src/controllers');
-const { mockSales, mockSaleById } = require('./mocks/sale.controller.mock');
+const {
+  mockSales,
+  mockSaleById,
+  mockNewSale,
+  mockNewSaleResolve,
+} = require('./mocks/sale.controller.mock');
+const { validateBody, validateFields } = require('../../../src/middlewares/validateNewSaleFields');
 
 describe('Testando a camada controller das vendas', function () {
   describe('a função findAll', function () {
@@ -59,6 +65,65 @@ describe('Testando a camada controller das vendas', function () {
 
       expect(res.status).to.have.been.calledWith(404);
       expect(res.json).to.have.been.calledWith({ message: 'Sale not found' });
+    });
+  });
+
+  describe('a função createNewSale', function () {
+    it('ao enviar dados válidos cadastra com sucesso', async function () {
+      const res = {};
+      const req = {
+        body: mockNewSale,
+      };
+
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon.stub(saleService, 'insert').resolves({
+        type: null, message: mockNewSaleResolve,
+      });
+
+      await saleController.createNewSale(req, res);
+
+      expect(res.status).to.have.been.calledWith(201);
+      expect(res.json).to.have.been.calledWith(mockNewSaleResolve);
+    });
+
+    describe('a função validateBody', function () {
+      it('Passando os dados corretamente chama o próximo middleware', async function () {
+        const res = {};
+        const req = {
+          body: [{
+            productId: 2,
+            quantity: 2,
+          }],
+        };
+
+        res.status = sinon.stub().returns(res);
+        res.json = sinon.stub().returns();
+    
+        const next = sinon.stub().returns();
+    
+        await validateBody(req, res, next);
+    
+        expect(next).to.have.been.calledWith();
+      });
+    });
+
+    describe('a função validateFields', function () {
+      it('Passando os dados corretamente chama o próximo middleware', async function () {
+        const res = {};
+        const req = {
+          body: [{
+            productId: 2,
+            quantity: 2,
+          }],
+        };
+    
+        const next = sinon.stub().returns();
+    
+        await validateFields(req, res, next);
+    
+        expect(next).to.have.been.calledWith();
+      });
     });
   });
 
