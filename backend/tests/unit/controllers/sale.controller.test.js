@@ -12,8 +12,10 @@ const {
   mockSaleById,
   mockNewSale,
   mockNewSaleResolve,
+  mockNewSaleQuantity,
 } = require('./mocks/sale.controller.mock');
 const validateNewSaleFields = require('../../../src/middlewares/validateNewSaleFields');
+const validateUpdateSaleQuantity = require('../../../src/middlewares/validateUpdateSaleQuantity');
 
 describe('Testando a camada controller das vendas', function () {
   describe('a função findAll', function () {
@@ -138,6 +140,52 @@ describe('Testando a camada controller das vendas', function () {
       await saleController.deleteSale(req, res);
 
       expect(res.status).to.have.been.calledWith(204);
+    });
+  });
+
+  describe('a função updateSaleQuantity', function () {
+    it('altera com sucesso a quantidade do produto', async function () {
+      const req = { params: { saleId: 1, productId: 1 }, body: { quantity: 2 } };
+      const res = {};
+  
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon.stub(saleService, 'updateQuantityById')
+        .resolves({ type: null, message: mockNewSaleQuantity });
+  
+      await saleController.updateSaleQuantity(req, res);
+  
+      expect(res.status).to.have.been.calledWith(200);
+      expect(res.json).to.have.been.calledWith(mockNewSaleQuantity);
+    });
+
+    it('retorna erro quando a quantidade passada é igual a zero', async function () {
+      const errorMessage = '"quantity" must be greater than or equal to 1';
+      const req = { params: { saleId: 1, productId: 1 }, body: { quantity: 0 } };
+      const res = {};
+  
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon.stub(saleService, 'updateQuantityById')
+        .resolves({ type: null, message: errorMessage });
+  
+      await saleController.updateSaleQuantity(req, res);
+  
+      expect(res.status).to.have.been.calledWith(200);
+      expect(res.json).to.have.been.calledWith(errorMessage);
+    });
+  });
+
+  describe('a função validateUpdateSaleQuantity', function () {
+    it('Passando os dados corretamente chama o próximo middleware', async function () {
+      const res = {};
+      const req = { params: { saleId: 1, productId: 1 }, body: { quantity: 2 } };
+  
+      const next = sinon.stub().returns();
+  
+      await validateUpdateSaleQuantity(req, res, next);
+  
+      expect(next).to.have.been.calledWith();
     });
   });
 

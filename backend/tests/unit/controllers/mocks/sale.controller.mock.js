@@ -60,6 +60,13 @@ const mockNewSaleError = {
   ],
 };
 
+const mockNewSaleQuantity = {
+  date: '2023-06-14T01:06:16.000Z',
+  productId: '1',
+  quantity: 2,
+  saleId: '1',
+};
+
 const productIdError = {
   message: '"productId" is required',
 };
@@ -70,5 +77,6 @@ module.exports = {
   mockNewSale,
   mockNewSaleResolve,
   mockNewSaleError,
+  mockNewSaleQuantity,
   productIdError,
 };

@@ -22,9 +22,17 @@ const mockProductResponse = {
   name: 'Cetro do Loki',
 };
 
+const mockExpectedResponse = {
+  date: '2023-06-18T00:00:00.000Z',
+  productId: 1,
+  quantity: 2,
+  saleId: 1,
+};
+
 module.exports = {
   mockProducts,
   mockProductResponse,
+  mockExpectedResponse,
   newProductMockDB,
   validId,
   validName,

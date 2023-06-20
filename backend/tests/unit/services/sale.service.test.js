@@ -2,12 +2,14 @@ const sinon = require('sinon');
 const { expect } = require('chai');
 
 const { saleService } = require('../../../src/services');
-const { saleModel } = require('../../../src/models');
+const { saleModel, productModel } = require('../../../src/models');
 const {
   mockSales,
   mockSaleById,
   mockNewSale,
   mockNewSaleResolve,
+  mockProduct,
+  mockSale,
 } = require('./mocks/sale.service.mock');
 
 describe('Testando a camada service das vendas', function () {
@@ -68,6 +70,19 @@ describe('Testando a camada service das vendas', function () {
       const result = await saleService.deleteById(1);
 
       expect(result.type).to.equal(null);
+    });
+  });
+
+  describe('a função upgradeQuantityById', function () {
+    it('deleta com sucesso uma venda', async function () {
+      sinon.stub(saleModel, 'findById').resolves(mockSaleById);
+      sinon.stub(productModel, 'findById').resolves(mockProduct);
+      sinon.stub(saleModel, 'updateQuantityById').resolves(mockSale);
+      
+      const result = await saleService.updateQuantityById(1, 1, 2);
+
+      expect(result.type).to.equal(null);
+      expect(result.message).to.deep.equal(mockSale);
     });
   });
 

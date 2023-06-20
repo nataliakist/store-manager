@@ -4,6 +4,7 @@ const connection = require('../../../src/models/connection');
 
 const { saleModel } = require('../../../src/models');
 const { mockSales, mockSaleById } = require('./mocks/sale.model.mock');
+const { mockExpectedResponse } = require('./mocks/product.model.mock');
 
 describe('Testando a camada model das vendas', function () {
   describe('a função findAll', function () {
@@ -45,6 +46,20 @@ describe('Testando a camada model das vendas', function () {
       const result = await saleModel.deleteById(1);
 
       expect(result).to.be.deep.equal(1);
+    });
+  });
+
+  describe('a função updateQuantityById', function () {
+    it('altera a quantidade do produto com sucesso', async function () {
+      sinon.stub(connection, 'execute')
+        .onFirstCall()
+        .resolves([])
+        .onSecondCall()
+        .resolves([[{ date: new Date('2023-06-18') }]]);
+
+      const result = await saleModel.updateQuantityById(1, 1, 2);
+
+      expect(result).to.deep.equal(mockExpectedResponse);
     });
   });
   
