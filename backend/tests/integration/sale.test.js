@@ -41,28 +41,39 @@ describe('Teste de integração de sales', function () {
     const response = await chai
       .request(app)
       .post('/sales')
-      .send({ body: {
-        quantity: 2,
-      } });
+      .send([{
+          quantity: 2,
+        }]);
 
     expect(response.status).to.be.equal(400);
-    expect(response.body).to.be.deep.equal({
-      message: 'body request is empty',
-    });
+    expect(response.body).to.be.deep.equal({ message: '"productId" is required' });
   });
 
-    it('POST /sales sem passar quantity', async function () {
-      const response = await chai
-        .request(app)
-        .post('/sales')
-        .send({ body: {
-          productId: 2,
-        } });
-  
-      expect(response.status).to.be.equal(400);
-      expect(response.body).to.be.deep.equal({
-        message: 'body request is empty',
-      });
+  it('POST /sales sem passar quantity', async function () {
+    const response = await chai
+      .request(app)
+      .post('/sales')
+      .send([{
+        productId: 2,
+      }]);
+
+    expect(response.status).to.be.equal(400);
+    expect(response.body).to.be.deep.equal({ message: '"quantity" is required' });
+  });
+
+  it('POST /sales passando quantidade 0', async function () {
+    const response = await chai
+      .request(app)
+      .post('/sales')
+      .send([{
+        productId: 2,
+        quantity: 0,
+      }]);
+
+    expect(response.status).to.be.equal(422);
+    expect(response.body).to.be.deep.equal({ 
+      message: '"quantity" must be greater than or equal to 1', 
+    });
   });
 
   afterEach(function () {

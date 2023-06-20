@@ -15,7 +15,7 @@ const {
   mockProducts,
 } = require('../unit/controllers/mocks/product.controller.mock');
 
-describe('Teste de integração de sales', function () {
+describe('Teste de integração de products', function () {
   it('GET /products retorna uma lista de todos os produtos', async function () {
     sinon.stub(connection, 'execute').resolves([mockProducts]);
 
@@ -34,8 +34,20 @@ describe('Teste de integração de sales', function () {
     expect(response.body).to.be.deep.equal({
       message: '"name" is required',
     });
-});
-afterEach(function () {
-  sinon.restore();
-});
+  });
+  it('PUT /products:id sem nome retorna erro', async function () {
+    const response = await chai
+      .request(app)
+      .put('/products/1')
+      .send({});
+
+    expect(response.status).to.be.equal(400);
+    expect(response.body).to.be.deep.equal({
+      message: '"name" is required',
+    });
+  });
+    
+  afterEach(function () {
+    sinon.restore();
+  });
 });

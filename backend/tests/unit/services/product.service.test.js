@@ -6,6 +6,8 @@ const { productModel } = require('../../../src/models');
 const {
   mockProducts,
   productName,
+  productId,
+  mockUpdateProduct,
 } = require('./mocks/product.service.mock');
 
 describe('Testando a camada service dos products', function () {
@@ -55,6 +57,18 @@ describe('Testando a camada service dos products', function () {
 
       expect(result.type).to.equal(null);
       expect(result.message).to.deep.equal(mockProducts[0]);
+    });
+  });
+
+  describe('a função updateById', function () {
+    it('altera com sucesso um produto', async function () {
+      sinon.stub(productModel, 'updateById').resolves(1);
+      sinon.stub(productModel, 'findById').resolves(mockUpdateProduct);
+
+      const result = await productService.updateById(productId, productName);
+
+      expect(result.type).to.equal(null);
+      expect(result.message).to.deep.equal(mockUpdateProduct);
     });
   });
 

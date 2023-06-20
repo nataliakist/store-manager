@@ -12,6 +12,9 @@ const {
   mockProducts,
   newProductMock,
   newProductMockDB,
+  productName,
+  productId,
+  mockUpdateProduct,
 } = require('./mocks/product.controller.mock');
 
 describe('Testando a camada controller dos products', function () {
@@ -87,22 +90,28 @@ describe('Testando a camada controller dos products', function () {
     });
   });
 
-  describe('a função validateNewProductName', function () {
-    it('Ao tentar cadastrar um novo produto sem nome retorna erro', async function () {
+  describe('a função updateProduct', function () {
+    it('ao enviar dados válidos atualiza com sucesso', async function () {
       const res = {};
       const req = {
-        body: {},
+        params: { productId },
+        body: { productName },
       };
-  
+
       res.status = sinon.stub().returns(res);
       res.json = sinon.stub().returns();
-  
-      await validateNewProductName(req, res);
-  
-      expect(res.status).to.have.been.calledWith(400);
-      expect(res.json).to.have.been.calledWith({ message: '"name" is required' });
-    });
+      sinon.stub(productService, 'updateById').resolves({
+        type: null, message: mockUpdateProduct,
+      });
 
+      await productController.updateProduct(req, res);
+
+      expect(res.status).to.have.been.calledWith(200);
+      expect(res.json).to.have.been.calledWith(mockUpdateProduct);
+    });
+  });
+
+  describe('a função validateNewProductName', function () {
     it('Passando os dados corretamente chama o próximo middleware', async function () {
       const res = {};
       const req = {

@@ -9,9 +9,18 @@ const mockProducts = [
   },
 ];
 
+const mockUpdateProduct = {
+  id: 1,
+  name: 'Cetro do Loki',
+};
+
+const productId = 1;
+
 const productName = 'Cetro do Loki';
 
 module.exports = {
   mockProducts,
+  mockUpdateProduct,
+  productId,
   productName,
 };

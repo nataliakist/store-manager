@@ -21,15 +21,11 @@ const insert = async (sale) => {
   
   const productsResult = await Promise.all(productsPromise);
 
-  console.log(productsResult);
-
   for (let index = 0; index < productsResult.length; index += 1) {
     if (productsResult[index].length < 1) {
       return { type: 'PRODUCT_NOT_FOUND', message: 'Product not found' };
     }
   }
-
-  console.log(sale);
   
   const saleId = await saleModel.insert(sale);
   const result = { id: +saleId, itemsSold: sale };

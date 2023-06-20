@@ -26,8 +26,19 @@ const insert = async (name) => {
   return { type: null, message: newProduct };
 };
 
+const updateById = async (id, name) => {
+  const error = await schema.validateInputValues(id, name);
+  if (error.type) return error;
+
+  await productModel.updateById(id, name);
+  const product = await productModel.findById(id);
+
+  return { type: null, message: product };
+};
+
 module.exports = {
   findAll,
   findById,
   insert,
+  updateById,
 };

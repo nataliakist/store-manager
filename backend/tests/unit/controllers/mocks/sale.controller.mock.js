@@ -51,9 +51,24 @@ const mockNewSaleResolve = {
   ],
 };
 
+const mockNewSaleError = {
+  id: 4,
+  itemsSold: [
+    {
+      quantity: 2,
+    },
+  ],
+};
+
+const productIdError = {
+  message: '"productId" is required',
+};
+
 module.exports = {
   mockSales,
   mockSaleById,
   mockNewSale,
   mockNewSaleResolve,
+  mockNewSaleError,
+  productIdError,
 };

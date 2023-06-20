@@ -13,7 +13,7 @@ const {
   mockNewSale,
   mockNewSaleResolve,
 } = require('./mocks/sale.controller.mock');
-const { validateBody, validateFields } = require('../../../src/middlewares/validateNewSaleFields');
+const validateNewSaleFields = require('../../../src/middlewares/validateNewSaleFields');
 
 describe('Testando a camada controller das vendas', function () {
   describe('a função findAll', function () {
@@ -96,20 +96,17 @@ describe('Testando a camada controller das vendas', function () {
             quantity: 2,
           }],
         };
-
-        res.status = sinon.stub().returns(res);
-        res.json = sinon.stub().returns();
     
         const next = sinon.stub().returns();
     
-        await validateBody(req, res, next);
+        await validateNewSaleFields.validateBody(req, res, next);
     
         expect(next).to.have.been.calledWith();
       });
     });
 
     describe('a função validateFields', function () {
-      it('Passando os dados corretamente chama o próximo middleware', async function () {
+      it('passando os dados corretamente chama o próximo middleware', async function () {
         const res = {};
         const req = {
           body: [{
@@ -120,7 +117,7 @@ describe('Testando a camada controller das vendas', function () {
     
         const next = sinon.stub().returns();
     
-        await validateFields(req, res, next);
+        await validateNewSaleFields.validateFields(req, res, next);
     
         expect(next).to.have.been.calledWith();
       });

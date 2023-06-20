@@ -1,3 +1,7 @@
+const validId = 1;
+
+const validName = 'Cedro do Loki';
+
 const mockProducts = [
   {
     id: 1,
@@ -13,7 +17,15 @@ const newProductMockDB = {
   name: 'Cetro do Loki',
 };
 
+const mockProductResponse = {
+  id: 1,
+  name: 'Cetro do Loki',
+};
+
 module.exports = {
   mockProducts,
+  mockProductResponse,
   newProductMockDB,
+  validId,
+  validName,
 };
