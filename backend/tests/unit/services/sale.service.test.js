@@ -60,6 +60,17 @@ describe('Testando a camada service das vendas', function () {
     });
   });
 
+  describe('a função deleteById', function () {
+    it('deleta com sucesso uma venda', async function () {
+      sinon.stub(saleModel, 'findById').resolves(mockSaleById);
+      sinon.stub(saleModel, 'deleteById').resolves(2);
+      
+      const result = await saleService.deleteById(1);
+
+      expect(result.type).to.equal(null);
+    });
+  });
+
   afterEach(function () {
     sinon.restore();
   });

@@ -55,9 +55,28 @@ const deleteById = async (id) => {
   return affectedRows;
 };
 
+const updateQuantityById = async (saleId, productId, quantity) => {
+  await connection.execute(
+    'UPDATE sales_products SET quantity = ? WHERE sale_id = ? AND product_id = ?',
+    [quantity, saleId, productId],
+  );
+  const [saleDate] = await connection.execute(
+    'SELECT date FROM sales WHERE id = ?',
+    [saleId],
+);
+
+  return {
+    date: saleDate[0].date.toISOString(),
+    productId: +productId,
+    quantity: +quantity,
+    saleId: +saleId,
+  };
+};
+
 module.exports = {
   findAll,
   findById,
   insert,
   deleteById,
+  updateQuantityById,
 };

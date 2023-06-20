@@ -9,9 +9,15 @@ productRouter.put(
   validateNewProductName,
   productController.updateProduct,
 );
+
 productRouter.delete('/:id', productController.deleteProduct);
+
+productRouter.get('/search', productController.getProductByQuery);
+
 productRouter.get('/:id', productController.listProductById);
+
 productRouter.get('/', productController.listProducts);
+
 productRouter.post(
   '/',
   validateNewProductName,

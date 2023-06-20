@@ -124,6 +124,23 @@ describe('Testando a camada controller das vendas', function () {
     });
   });
 
+  describe('a função deleteProduct', function () {
+    it('ao enviar um id válido deleta com sucesso', async function () {
+      const res = {};
+      const req = {
+        params: 1,
+      };
+
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon.stub(saleService, 'deleteById').resolves({ type: null });
+
+      await saleController.deleteSale(req, res);
+
+      expect(res.status).to.have.been.calledWith(204);
+    });
+  });
+
   afterEach(function () {
     sinon.restore();
   });

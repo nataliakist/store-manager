@@ -1,4 +1,4 @@
-const { saleModel } = require('../models');
+const { saleModel, productModel } = require('../models');
 const schema = require('./validations/validationInputValues');
 
 const findAll = async () => {
@@ -38,7 +38,7 @@ const deleteById = async (id) => {
   if (error.type) return error;
 
   const sale = await saleModel.findById(id);
-  console.log(sale);
+
   if (!sale || sale.length === 0) return { type: 'SALE_NOT_FOUND', message: 'Sale not found' };
 
   await saleModel.deleteById(id);
@@ -46,9 +46,24 @@ const deleteById = async (id) => {
   return { type: null };
 };
 
+const updateQuantityById = async (saleId, productId, quantity) => {
+  const sale = await saleModel.findById(saleId);
+  if (!sale[1]) return { type: 'SALE_NOT_FOUND', message: 'Sale not found' };
+
+  const product = await productModel.findById(productId);
+  if (!product) return { type: 'PRODUCT_NOT_FOUND', message: 'Product not found in sale' };
+
+  const result = await saleModel.updateQuantityById(saleId, productId, quantity);
+
+  console.log(result);
+
+  return { type: null, message: result };
+};
+
 module.exports = {
   findAll,
   findById,
   insert,
   deleteById,
+  updateQuantityById,
 };

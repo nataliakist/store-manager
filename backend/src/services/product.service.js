@@ -48,10 +48,21 @@ const deleteById = async (id) => {
   return { type: null };
 };
 
+const getByQuery = async (query) => {
+  const products = await productModel.findAll();
+
+  if (!query) return { type: null, message: products };
+
+  const filteredProducts = products.filter((product) => product.name.includes(query));
+
+  return { type: null, message: filteredProducts };
+};
+
 module.exports = {
   findAll,
   findById,
   insert,
   updateById,
   deleteById,
+  getByQuery,
 };

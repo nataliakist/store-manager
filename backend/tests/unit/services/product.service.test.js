@@ -101,6 +101,26 @@ describe('Testando a camada service dos products', function () {
     });
   });
 
+  describe('a função getByQuery', function () {
+    it('busca com sucesso um produto', async function () {
+      sinon.stub(productModel, 'findAll').resolves(mockProducts);
+    
+      const result = await productService.getByQuery('Martelo');
+
+      expect(result.type).to.equal(null);
+      expect(result.message).to.deep.equal([mockProducts[0]]);
+    });
+
+    it('retorna erro quando a query está vazia', async function () {
+      sinon.stub(productModel, 'findAll').resolves(mockProducts);
+    
+      const result = await productService.getByQuery();
+
+      expect(result.type).to.equal(null);
+      expect(result.message).to.deep.equal(mockProducts);
+    });
+  });
+
   afterEach(function () {
     sinon.restore();
   });

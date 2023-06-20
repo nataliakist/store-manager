@@ -165,6 +165,40 @@ describe('Testando a camada controller dos products', function () {
     });
   });
 
+  describe('a função getProductByQuery', function () {
+    it('ao buscar produto existente encontra com sucesso', async function () {
+      const res = {};
+      const req = {
+        query: 'Martelo',
+      };
+
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon.stub(productService, 'getByQuery').resolves({ type: null, message: [mockProducts[0]] });
+
+      await productController.getProductByQuery(req, res);
+
+      expect(res.status).to.have.been.calledWith(200);
+      expect(res.json).to.have.been.calledWith([mockProducts[0]]);
+    });
+
+    it('ao passar query vazia retorna todos os produtos', async function () {
+      const res = {};
+      const req = {
+        query: '',
+      };
+
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon.stub(productService, 'getByQuery').resolves({ type: null, message: mockProducts });
+
+      await productController.getProductByQuery(req, res);
+
+      expect(res.status).to.have.been.calledWith(200);
+      expect(res.json).to.have.been.calledWith(mockProducts);
+    });
+  });
+
   describe('a função validateNewProductName', function () {
     it('Passando os dados corretamente chama o próximo middleware', async function () {
       const res = {};

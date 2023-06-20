@@ -47,7 +47,22 @@ describe('Teste de integração de products', function () {
       message: '"name" is required',
     });
   });
-    
+
+  it('GET /products/search busca com sucesso o produto solicitado', async function () {
+    sinon.stub(connection, 'execute').resolves([mockProducts]);
+    const response = await chai
+      .request(app)
+      .get('/products/search?q=Martelo');
+
+    expect(response.status).to.be.equal(200);
+    expect(response.body).to.be.deep.equal([
+      {
+        id: 1,
+        name: 'Martelo de Thor',
+      },
+    ]);
+  });
+
   afterEach(function () {
     sinon.restore();
   });
