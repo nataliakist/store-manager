@@ -74,7 +74,7 @@ describe('Testando a camada service das vendas', function () {
   });
 
   describe('a função upgradeQuantityById', function () {
-    it('deleta com sucesso uma venda', async function () {
+    it('altera com sucesso uma venda', async function () {
       sinon.stub(saleModel, 'findById').resolves(mockSaleById);
       sinon.stub(productModel, 'findById').resolves(mockProduct);
       sinon.stub(saleModel, 'updateQuantityById').resolves(mockSale);

@@ -76,6 +76,32 @@ describe('Teste de integração de sales', function () {
     });
   });
 
+  it('PUT /sales/:saleId/products/:productId;quantity quantidade 0', async function () {
+    const response = await chai
+      .request(app)
+      .put('/sales/1/products/1/quantity')
+      .send({
+        quantity: 0,
+      });
+
+    expect(response.status).to.be.equal(422);
+    expect(response.body).to.be.deep.equal({ 
+      message: '"quantity" must be greater than or equal to 1', 
+    });
+  });
+
+  it('PUT /sales/:saleId/products/:productId;quantity productId inválido', async function () {
+    const response = await chai
+      .request(app)
+      .put('/sales/1/products/1/quantity')
+      .send();
+
+    expect(response.status).to.be.equal(400);
+    expect(response.body).to.be.deep.equal({ 
+      message: '"quantity" is required', 
+    });
+  });
+
   afterEach(function () {
     sinon.restore();
   });
