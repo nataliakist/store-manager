@@ -5,9 +5,16 @@ const validateUpdateSaleQuantity = require('../middlewares/validateUpdateSaleQua
 
 const saleRouter = Router();
 
+saleRouter.get('/', saleController.listSales);
+
 saleRouter.get('/:id', saleController.listSaleById);
 
-saleRouter.get('/', saleController.listSales);
+saleRouter.post(
+  '/',
+  validateBody,
+  validateFields,
+  saleController.createNewSale,
+);
 
 saleRouter.put(
   '/:saleId/products/:productId/quantity',
@@ -16,12 +23,5 @@ saleRouter.put(
 );
 
 saleRouter.delete('/:id', saleController.deleteSale);
-
-saleRouter.post(
-  '/',
-  validateBody,
-  validateFields,
-  saleController.createNewSale,
-);
 
 module.exports = saleRouter;

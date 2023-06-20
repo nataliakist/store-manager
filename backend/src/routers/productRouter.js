@@ -6,9 +6,15 @@ const productRouter = Router();
 
 productRouter.get('/search', productController.getProductByQuery);
 
+productRouter.get('/', productController.listProducts);
+
 productRouter.get('/:id', productController.listProductById);
 
-productRouter.get('/', productController.listProducts);
+productRouter.post(
+  '/',
+  validateNewProductName,
+  productController.createNewProduct,
+);
 
 productRouter.put(
   '/:id',
@@ -17,11 +23,5 @@ productRouter.put(
 );
 
 productRouter.delete('/:id', productController.deleteProduct);
-
-productRouter.post(
-  '/',
-  validateNewProductName,
-  productController.createNewProduct,
-);
 
 module.exports = productRouter;
