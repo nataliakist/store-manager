@@ -14,7 +14,6 @@ app.use('/products', productRouter);
 app.use('/sales', saleRouter);
 
 app.use((error, _req, res, _next) => {
-  console.log(error);
   res.status(error.status).json({ message: error.message });
 });
 

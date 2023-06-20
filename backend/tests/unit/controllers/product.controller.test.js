@@ -111,6 +111,60 @@ describe('Testando a camada controller dos products', function () {
     });
   });
 
+  describe('a função deleteProduct', function () {
+    it('ao enviar dados válidos deleta com sucesso', async function () {
+      const res = {};
+      const req = {
+        params: { productId },
+      };
+
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon.stub(productService, 'deleteById').resolves({
+        type: null });
+
+      await productController.deleteProduct(req, res);
+
+      expect(res.status).to.have.been.calledWith(204);
+    });
+
+    it('ao enviar id inexistente retorna erro', async function () {
+      const res = {};
+      const req = {
+        params: { productId },
+      };
+
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon.stub(productService, 'deleteById').resolves(
+        { type: 'PRODUCT_NOT_FOUND', message: 'Product not found' },
+      );
+
+      await productController.deleteProduct(req, res);
+
+      expect(res.status).to.have.been.calledWith(404);
+      expect(res.json).to.have.been.calledWith({ message: 'Product not found' });
+    });
+
+    it('ao enviar id inválido retorna erro', async function () {
+      const res = {};
+      const req = {
+        params: 'a',
+      };
+
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon.stub(productService, 'deleteById').resolves(
+        { type: 'INVALID_VALUE', message: '"id" must be a number' },
+      );
+
+      await productController.deleteProduct(req, res);
+
+      expect(res.status).to.have.been.calledWith(422);
+      expect(res.json).to.have.been.calledWith({ message: '"id" must be a number' });
+    });
+  });
+
   describe('a função validateNewProductName', function () {
     it('Passando os dados corretamente chama o próximo middleware', async function () {
       const res = {};

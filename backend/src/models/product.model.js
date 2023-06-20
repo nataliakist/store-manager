@@ -28,7 +28,14 @@ const updateById = async (id, name) => {
     'UPDATE products SET name = ? WHERE id = ?',
     [name, id],
   );
-  console.log(affectedRows);
+  return affectedRows;
+};
+
+const deleteById = async (id) => {
+  const [{ affectedRows }] = await connection.execute(
+    'DELETE FROM products WHERE id = ?',
+    [id],
+  );
   return affectedRows;
 };
 
@@ -37,4 +44,5 @@ module.exports = {
   findById,
   insert,
   updateById,
+  deleteById,
 };

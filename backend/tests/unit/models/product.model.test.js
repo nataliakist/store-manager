@@ -52,6 +52,16 @@ describe('Testando a camada model dos products', function () {
       expect(result).to.be.deep.equal(1);
     });
   });
+
+  describe('a função deleteById', function () {
+    it('deleta com sucesso um produto', async function () {
+      sinon.stub(connection, 'execute').resolves([{ affectedRows: 1 }]);
+
+      const result = await productModel.deleteById(validId);
+
+      expect(result).to.be.deep.equal(1);
+    });
+  });
   
   afterEach(function () {
     sinon.restore();

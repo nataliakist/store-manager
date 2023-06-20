@@ -36,9 +36,22 @@ const updateById = async (id, name) => {
   return { type: null, message: product };
 };
 
+const deleteById = async (id) => {
+  const error = schema.validateId(id);
+  if (error.type) return error;
+
+  const product = await productModel.findById(id);
+  if (!product) return { type: 'PRODUCT_NOT_FOUND', message: 'Product not found' };
+
+  await productModel.deleteById(id);
+
+  return { type: null };
+};
+
 module.exports = {
   findAll,
   findById,
   insert,
   updateById,
+  deleteById,
 };

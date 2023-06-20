@@ -35,6 +35,7 @@ describe('Teste de integração de products', function () {
       message: '"name" is required',
     });
   });
+
   it('PUT /products:id sem nome retorna erro', async function () {
     const response = await chai
       .request(app)

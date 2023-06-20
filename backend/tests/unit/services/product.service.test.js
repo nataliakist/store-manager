@@ -72,6 +72,35 @@ describe('Testando a camada service dos products', function () {
     });
   });
 
+  describe('a função deleteById', function () {
+    it('deleta com sucesso um produto', async function () {
+      sinon.stub(productModel, 'deleteById').resolves(1);
+      sinon.stub(productModel, 'findById').resolves(mockUpdateProduct);
+
+      const result = await productService.deleteById(productId);
+
+      expect(result.type).to.equal(null);
+    });
+
+    it('retorna erro quando passado id inexistente', async function () {
+      sinon.stub(productModel, 'findById').resolves();
+
+      const result = await productService.deleteById(productId);
+
+      expect(result.type).to.equal('PRODUCT_NOT_FOUND');
+      expect(result.message).to.be.deep.equal('Product not found');
+    });
+
+    it('retorna erro quando passado id inválido', async function () {
+      sinon.stub(productModel, 'findById').resolves();
+
+      const result = await productService.deleteById('a');
+
+      expect(result.type).to.equal('INVALID_VALUE');
+      expect(result.message).to.be.deep.equal('"id" must be a number');
+    });
+  });
+
   afterEach(function () {
     sinon.restore();
   });
