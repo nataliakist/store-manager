@@ -55,8 +55,6 @@ const updateQuantityById = async (saleId, productId, quantity) => {
 
   const result = await saleModel.updateQuantityById(saleId, productId, quantity);
 
-  console.log(result);
-
   return { type: null, message: result };
 };
 
