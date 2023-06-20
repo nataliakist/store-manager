@@ -4,6 +4,7 @@ const { validateBody, validateFields } = require('../middlewares/validateNewSale
 
 const saleRouter = Router();
 
+saleRouter.delete('/:id', saleController.deleteSale);
 saleRouter.get('/:id', saleController.listSaleById);
 saleRouter.get('/', saleController.listSales);
 saleRouter.post(

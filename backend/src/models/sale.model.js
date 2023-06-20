@@ -36,13 +36,28 @@ const insert = async (sale) => {
 
   await Promise.all(result);
 
-  if (!result || result.length < 1) return { type: 'INVALID_VALUE', message: 'something is wrong' };
+  if (!result || result.length === 0) {
+    return { type: 'INVALID_VALUE', message: 'something is wrong' };
+  }
   
   return insertId;
+};
+
+const deleteById = async (id) => {
+  await connection.execute(
+    'DELETE FROM sales_products WHERE sale_id = ?',
+    [id],
+  );
+  const [{ affectedRows }] = await connection.execute(
+    'DELETE FROM sales WHERE id = ?',
+    [id],
+  );
+  return affectedRows;
 };
 
 module.exports = {
   findAll,
   findById,
   insert,
+  deleteById,
 };

@@ -11,7 +11,7 @@ const findById = async (id) => {
   if (error.type) return error;
 
   const sale = await saleModel.findById(id); 
-  if (!sale || sale.length < 1) return { type: 'SALE_NOT_FOUND', message: 'Sale not found' };
+  if (!sale || sale.length === 0) return { type: 'SALE_NOT_FOUND', message: 'Sale not found' };
 
   return { type: null, message: sale };
 };
@@ -22,7 +22,7 @@ const insert = async (sale) => {
   const productsResult = await Promise.all(productsPromise);
 
   for (let index = 0; index < productsResult.length; index += 1) {
-    if (productsResult[index].length < 1) {
+    if (productsResult[index].length === 0) {
       return { type: 'PRODUCT_NOT_FOUND', message: 'Product not found' };
     }
   }
@@ -33,8 +33,22 @@ const insert = async (sale) => {
   return { type: null, message: result };
 };
 
+const deleteById = async (id) => {
+  const error = schema.validateId(id);
+  if (error.type) return error;
+
+  const sale = await saleModel.findById(id);
+  console.log(sale);
+  if (!sale || sale.length === 0) return { type: 'SALE_NOT_FOUND', message: 'Sale not found' };
+
+  await saleModel.deleteById(id);
+
+  return { type: null };
+};
+
 module.exports = {
   findAll,
   findById,
   insert,
+  deleteById,
 };

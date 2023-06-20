@@ -2,7 +2,7 @@ const validateBody = (req, res, next) => {
   const sale = req.body;
   const message = { message: 'body request is empty' };
 
-  if (!Array.isArray(sale) || sale.length < 1) return res.status(400).json(message);
+  if (!Array.isArray(sale) || sale.length === 0) return res.status(400).json(message);
 
   return next();
 };
